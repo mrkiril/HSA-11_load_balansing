@@ -1,0 +1,92 @@
+version: '3.6'
+services:
+
+### NGINX Server #########################################
+    projector_nginx_loadbalanser:
+      container_name: projector_nginx_loadbalanser
+      build:
+        context: .
+        dockerfile: nginx/Dockerfile
+      volumes:
+          - ./nginx/projector_hw11.conf:/etc/nginx/conf.d/projector_hw11.conf
+          - ./nginx/cache:/etc/nginx_cache
+          - ./nginx/log:/var/log/nginx/
+          - ./nginx/static:/static
+      ports:
+        - "8080:80"
+      environment:
+        - NGINX_HOST=projector.localhost
+        - NGINX_PORT=80
+
+      links:
+        - projector_nginx_node_berlin
+        - projector_nginx_node_london
+        - projector_nginx_node_riga
+      networks:
+        - default
+      depends_on:
+        - projector_nginx_node_berlin
+        - projector_nginx_node_london
+        - projector_nginx_node_riga
+
+    projector_nginx_node_berlin:
+      container_name: projector_nginx_node_berlin
+      build:
+        context: .
+        dockerfile: nginx/Dockerfile
+      volumes:
+        - ./nginx_nodes/node_berlin/static:/static
+        - ./nginx_nodes/node_berlin/log:/var/log/nginx/
+        - ./nginx_nodes/node_berlin/projector_hw11.conf:/etc/nginx/conf.d/projector_hw11.conf
+      ports:
+        - "8001:80"
+      environment:
+        - NGINX_HOST=projector.localhost
+        - NGINX_PORT=80
+
+      networks:
+        - default
+
+    projector_nginx_node_london:
+      container_name: projector_nginx_node_london
+      build:
+        context: .
+        dockerfile: nginx/Dockerfile
+      volumes:
+        - ./nginx_nodes/node_london/static:/static
+        - ./nginx_nodes/node_london/log:/var/log/nginx
+        - ./nginx_nodes/node_london/projector_hw11.conf:/etc/nginx/conf.d/projector_hw11.conf
+
+      ports:
+        - "8002:80"
+      environment:
+        - NGINX_HOST=projector.localhost
+        - NGINX_PORT=80
+
+      networks:
+        - default
+
+    projector_nginx_node_riga:
+      container_name: projector_nginx_node_riga
+      build:
+        context: .
+        dockerfile: nginx/Dockerfile
+      volumes:
+        - ./nginx_nodes/node_riga/static:/static
+        - ./nginx_nodes/node_riga/log:/var/log/nginx
+        - ./nginx_nodes/node_riga/projector_hw11.conf:/etc/nginx/conf.d/projector_hw11.conf
+      ports:
+        - "8003:80"
+      environment:
+        - NGINX_HOST=projector.localhost
+        - NGINX_PORT=80
+
+      networks:
+        - default
+
+volumes:
+  db-data:
+  es-data:
+  redis-data:
+  influxdb_data:
+  grafana_data:
