@@ -6,6 +6,7 @@ up:
 	docker-compose ps
 
 run:
+	sudo -S rm -rf ./nginx/cache/*
 	docker-compose build --parallel --no-cache
 	docker-compose up -d
 	docker-compose ps
@@ -15,7 +16,7 @@ restart:
 	docker-compose ps
 
 rebuild:
-	#sudo -S rm -rf ./nginx/cache/*
+	sudo -S rm -rf ./nginx/cache/*
 #	echo "" > ./nginx/log/projector.access.log
 #	echo "" >  ./nginx/log/projector.error.log
 #	echo "" > ./nginx/log/error.log
