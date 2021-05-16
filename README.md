@@ -1,4 +1,4 @@
-## Projector HW 11 - Load balansing
+## Projector HW 11 - cdn
 
 ### Upstream - random
 >Riga: 3312
