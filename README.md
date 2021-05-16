@@ -14,6 +14,13 @@
 >
 >London: 3338
 
+### Upstream - ip_hash
+>Riga: 10000
+>
+>Berlin: 0
+>
+>London: 0
+
 
 ### Upstream - least_conn (with weight)
 ```
